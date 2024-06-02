@@ -3,15 +3,18 @@ using namespace std;
 string solve(int lst[],int s){
 	int a=lst[0];
 	int i=1;
-//	if(s==1){
-//		return "YES";
-//	}
+	if(s==1){
+		return "YES";
+	}
 	while(i<s){
 		if(lst[i]>=lst[i-1]){
 			i+=1;
 		}else{
 			break;
 		}
+	}
+	if(i==s){
+		return "YES";
 	}
 	if(lst[i]>a){
 		return "NO";
@@ -24,7 +27,7 @@ string solve(int lst[],int s){
 			return "NO";
 		}
 	}
-	if(lst[i-1]>=a){
+	if(lst[i-1]>a){
 		return "NO";
 	}
 	return "YES";
