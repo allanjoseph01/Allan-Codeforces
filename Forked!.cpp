@@ -1,54 +1,56 @@
 #include<bits/stdc++.h>
 using namespace std;
+#ifdef LOCAL
+#include "algo/debug.h"
+#else
+#define debug(...) 42
+#endif
 int main(){
+	ios::sync_with_stdio(false);
+	cin.tie(0);
 	int t;
 	cin >> t;
 	for(int _=0;_<t;_++){
-		int a,b;
+		long long a,b;
 		cin >> a >> b;
-		int xk,yk;
-		cin >> xk >> yk;
-		int xq,yq;
-		cin >> xq >> yq;
-		vector<pair<int,int>>posk;
-		posk.push_back(make_pair(xk-a,yk-b));
-		posk.push_back(make_pair(xk-b,yk-a));
-		posk.push_back(make_pair(xk+a,yk+b));
-		posk.push_back(make_pair(xk+b,yk+a));
-		posk.push_back(make_pair(xk-a,yk+b));
-		posk.push_back(make_pair(xk+b,yk-a));
-		posk.push_back(make_pair(xk+a,yk-b));
-		posk.push_back(make_pair(xk-b,yk+a));
-		vector<pair<int,int>>posq;
-		posq.push_back(make_pair(xq-a,yq-b));
-		posq.push_back(make_pair(xq-b,yq-a));
-		posq.push_back(make_pair(xq+a,yq+b));
-		posq.push_back(make_pair(xq+b,yq+a));
-		posq.push_back(make_pair(xq-a,yq+b));
-		posq.push_back(make_pair(xq+b,yq-a));
-		posq.push_back(make_pair(xq+a,yq-b));
-		posq.push_back(make_pair(xq-b,yq+a));
+		long long arr[4];
+		cin >> arr[0] >> arr[1] >> arr[2] >> arr[3];
+		vector<pair<long long,long long>>k,q;
+		map<pair<long long,long long>,int> plco;
+		for(int i=0;i<2;){
+			k.push_back(make_pair(arr[i]+a,arr[i+1]+b));
+			k.push_back(make_pair(arr[i]+a,arr[i+1]-b));
+			k.push_back(make_pair(arr[i]+b,arr[i+1]+a));
+			k.push_back(make_pair(arr[i]+b,arr[i+1]-a));
+			k.push_back(make_pair(arr[i]-a,arr[i+1]+b));
+			k.push_back(make_pair(arr[i]-a,arr[i+1]-b));
+			k.push_back(make_pair(arr[i]-b,arr[i+1]+a));
+			k.push_back(make_pair(arr[i]-b,arr[i+1]-a));
+			i+=2;
+		}
+		for(int i=2;i<4;){
+			q.push_back(make_pair(arr[i]+a,arr[i+1]+b));
+			q.push_back(make_pair(arr[i]+a,arr[i+1]-b));
+			q.push_back(make_pair(arr[i]+b,arr[i+1]+a));
+			q.push_back(make_pair(arr[i]+b,arr[i+1]-a));
+			q.push_back(make_pair(arr[i]-a,arr[i+1]+b));
+			q.push_back(make_pair(arr[i]-a,arr[i+1]-b));
+			q.push_back(make_pair(arr[i]-b,arr[i+1]+a));
+			q.push_back(make_pair(arr[i]-b,arr[i+1]-a));
+			i+=2;
+		}
 		int count=0;
-		for(int i=0;i<8;i++){
-			int j;
-			for(j=0;j<8;j++){
-				if(posk[i].first==posq[j].first && posk[i].second==posq[j].second){
+		for(int j=0;j<8;j++){
+			for(int s=0;s<8;s++){
+				if(k[j].first==q[s].first && k[j].second==q[s].second && plco.find(k[j])==plco.end()){
+//					cout << k[j].first << " " << q[s].first << endl;
+//					cout << k[j].second << " " << q[s].second << endl;
+					plco.insert({k[j],1});
 					count+=1;
 					break;
-				}
-			}
-			if(posk[i].first==posq[j].first && posk[i].second==posq[j].second){
-				continue;
+				}	
 			}
 		}
-		if(xk!=xq){
-            if(((yk-yq)/(xk-xq))==1){
-                cout << count << endl;
-            }else{
-                cout << count/2 << endl;
-            }
-        }else{
-            cout << count << endl;
-        }
+		cout << count << endl;
 	}
 }
